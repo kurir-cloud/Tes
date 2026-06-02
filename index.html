@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulasi Lag Aman</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        button { padding: 12px 24px; font-size: 16px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        #area-teks { margin-top: 20px; text-align: left; background: #eee; padding: 10px; max-height: 300px; overflow-y: scroll; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <h2>Simulasi Beban Memori Aman</h2>
+    <p>Klik tombol di bawah untuk melihat bagaimana HP memproses 10.000 baris data sekaligus.</p>
+    
+    <button onclick="ujiMemoriAman()">Mulai Simulasi Aman</button>
+    
+    <!-- Kotak tempat memunculkan teks hasil perulangan -->
+    <div id="area-teks">Hasil akan muncul di sini...</div>
+
+    <script>
+        function ujiMemoriAman() {
+            let wadahTeks = "";
+            let tempatTampil = document.getElementById("area-teks");
+            
+            // Menggunakan batasan angka 10.000 (Sangat aman untuk RAM HP modern)
+            for (let i = 1; i <= 10000; i++) {
+                wadahTeks += "Baris teks simulasi ke-" + i + "<br>";
+            }
+            
+            // Memasukkan teks ke dalam kotak layar
+            tempatTampil.innerHTML = wadahTeks;
+        }
+    </script>
+
+</body>
+</html>
