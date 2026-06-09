@@ -1,1 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirim Foto ke Telegram</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #f4f4f9; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+        button { background: #0088cc; color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px; }
+        input[type="file"] { margin: 15px 0; }
+        #status { margin-top: 15px; font-weight: bold; color: #333; }
+    </style>
+</head>
+<body>
 
+<div class="card">
+    <h2>Kirim Foto ke Bot Telegram</h2>
+    <p>Pilih foto dari galeri atau kamera ponsel Anda:</p>
+    
+    <input type="file" id="fotoInput" accept="image/*">
+    <button onclick="kirimKeTelegram()">Kirim Foto</button>
+    
+    <div id="status"></div>
+</div>
+
+<script>
+    // GANTI DENGAN DATA BOT TELEGRAM ANDA
+    const TOKEN_BOT = "8944168845:AAE-fJOEJwFKrFK3dRzI5UQiuYvbkJC7Z_Y";
+    const CHAT_ID = "1966317946";
+
+    async function kirimKeTelegram() {
+        const fileInput = document.getElementById('fotoInput');
+        const statusDiv = document.getElementById('status');
+        
+        if (fileInput.files.length === 0) {
+            statusDiv.innerText = "Silakan pilih atau ambil foto terlebih dahulu!";
+            statusDiv.style.color = "red";
+            return;
+        }
+
+        statusDiv.innerText = "Sedang mengirim...";
+        statusDiv.style.color = "blue";
+
+        const formData = new FormData();
+        formData.append('chat_id', CHAT_ID);
+        formData.append('photo', fileInput.files[0]);
+
+        try {
+            const response = await fetch(`https://api.telegram.org/bot${TOKEN_BOT}/sendPhoto`, {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (result.ok) {
+                statusDiv.innerText = "Foto berhasil dikirim ke Telegram!";
+                statusDiv.style.color = "green";
+            } else {
+                statusDiv.innerText = "Gagal mengirim: " + result.description;
+                statusDiv.style.color = "red";
+            }
+        } catch (error) {
+            statusDiv.innerText = "Terjadi kesalahan jaringan.";
+            statusDiv.style.color = "red";
+        }
+    }
+</script>
+
+</body>
+</html>
